@@ -3,6 +3,7 @@ import shutil
 import subprocess
 from pathlib import Path
 import json
+import certifi
 
 def clean_dirs():
     """清理构建目录"""
@@ -21,9 +22,9 @@ def create_portable():
         '--noconsole',
         '--name=VoiceInk',
         '--icon=resources/app.ico',
-        # 添加 qt.conf
-        '--add-data=qt.conf;.',
-        # 修改资源文件的打包方式
+        # 添加证书文件
+        f'--add-data={certifi.where()};certifi',
+        # 移除 --add-data=qt.conf;. 参数
         '--add-data=resources/app.ico;resources/',
         '--add-data=resources/style.qss;resources/',
         '--add-data=resources/icons/16x16/app.png;resources/icons/16x16/',
@@ -31,7 +32,6 @@ def create_portable():
         '--add-data=resources/icons/32x32/app.png;resources/icons/32x32/',
         '--add-data=resources/icons/48x48/app.png;resources/icons/48x48/',
         '--add-data=resources/icons/256x256/app.png;resources/icons/256x256/',
-        # 确保所有资源目录都被包含
         '--add-data=resources;resources',
         # PyQt6 相关配置
         '--hidden-import=PyQt6',
@@ -55,17 +55,16 @@ def create_portable():
         '--hidden-import=pyautogui',
         '--hidden-import=win32com.client',
         '--hidden-import=emoji',
-        '--hidden-import=google.generativeai',  # 添加 Google AI 依赖
-        # 排除不需要的模块
+        '--hidden-import=google.generativeai',
         '--exclude-module=matplotlib',
         '--exclude-module=scipy',
         '--exclude-module=pandas',
         '--exclude-module=PIL',
         '--exclude-module=cv2',
-        '--distpath=portable',
-        # 添加字体相关的依赖
         '--hidden-import=PyQt6.QtGui.QFontDatabase',
         '--hidden-import=PyQt6.QtGui.QFont',
+        '--hidden-import=certifi',
+        '--distpath=portable',
         'main.py'
     ], check=True)
     
@@ -109,7 +108,7 @@ def create_portable():
             "provider": "openai",
             "post_process": False,
             "post_process_provider": "openai",
-            "post_process_prompt": "修正文本中的错误，保持原意",
+            "post_process_prompt": "修正文本中错误，保持原意",
             "wave_window_position": "right-middle",
             "wave_window_custom_pos": {"x": 0, "y": 0},
             "remove_punctuation": True,
@@ -168,6 +167,8 @@ def create_single_exe():
         '--onefile',
         '--name=VoiceInk',
         '--icon=resources/app.ico',
+        # 添加证书文件
+        f'--add-data={certifi.where()};certifi',
         # 添加 qt.conf
         '--add-data=qt.conf;.',
         # 修改资源文件的打包方式
@@ -209,6 +210,9 @@ def create_single_exe():
         '--exclude-module=pandas',
         '--exclude-module=PIL',
         '--exclude-module=cv2',
+        '--hidden-import=PyQt6.QtGui.QFontDatabase',
+        '--hidden-import=PyQt6.QtGui.QFont',
+        '--hidden-import=certifi',
         'main.py'
     ], check=True)
     

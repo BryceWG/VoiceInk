@@ -1,7 +1,6 @@
 from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QTabWidget,
                            QLabel, QLineEdit, QComboBox, QCheckBox, 
                            QPushButton, QGroupBox, QWidget, QMessageBox, QScrollArea)
-from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QDoubleValidator
 
 class SettingsDialog(QDialog):

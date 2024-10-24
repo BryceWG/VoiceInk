@@ -35,11 +35,20 @@ VoiceInk 是一款简单易用的智能语音输入工具，支持实时语音�
 2. 选择下载方式：
    - 便携版（推荐）：下载 `VoiceInk_便携版.zip`
    - 单文件版：下载 `VoiceInk.exe`
-   - 
+  
 ### 自己打包
 
-1. 安装依赖 `pip install -r requirements.txt`
-2. 运行 `build_scripts/build.py` 打包
+1. 克隆此仓库：
+   ```bash
+   git clone https://github.com/yourusername/VoiceInk.git
+   cd VoiceInk
+   ```
+
+2. 创建并激活虚拟环境
+
+3. 安装依赖 `pip install -r requirements.txt`
+
+4. 运行 `build_scripts/build.py` 打包
 
 ### 首次使用
 

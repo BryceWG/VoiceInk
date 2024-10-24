@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QApplication
 from PyQt6.QtCore import (Qt, QTimer, QPropertyAnimation, QEasingCurve, 
-                         QPoint, QSize, pyqtProperty, QRectF)  # 从 QtCore 导入 QRectF
-from PyQt6.QtGui import QPainter, QPen, QColor, QLinearGradient
+                         pyqtProperty, QRectF)  # 从 QtCore 导入 QRectF
+from PyQt6.QtGui import QPainter, QColor, QLinearGradient
 import numpy as np
 
 class WaveVisualizerWindow(QWidget):

@@ -286,6 +286,11 @@ class MainWindow(QMainWindow):
             self.transcription_manager.insert_text(text)
             # 显示转录文本
             self.update_status(f"转写完成\n转录文本：{text}")
+            
+            # 如果历史记录窗口已打开，刷新显示
+            if hasattr(self, 'history_window') and self.history_window and self.history_window.isVisible():
+                self.history_window.refresh_history()
+            
         except Exception as e:
             error_msg = f"错误: {str(e)}\n请查看logs文件夹中的日志文件获取详细信息"
             print(error_msg)
@@ -351,3 +356,4 @@ class MainWindow(QMainWindow):
         # 更新波形窗口位置
         if self.wave_window:
             self.wave_window.update_position()
+

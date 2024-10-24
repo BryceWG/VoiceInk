@@ -1,7 +1,7 @@
 from pynput import keyboard
 from core.audio_recorder import AudioRecorder
 import time
-from PyQt6.QtCore import QObject, pyqtSignal, QTimer
+from PyQt6.QtCore import QObject, pyqtSignal
 
 class KeyboardListener(QObject):
     recording_started = pyqtSignal()  # 录音开始信号
