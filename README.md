@@ -17,31 +17,37 @@ VoiceInk 是一款简单易用的智能语音输入工具，支持实时语音�
 
 ### 主界面
 
-![](Clip_2024-10-24_15-38-38.png)
+![](main.png)
 
 ### 设置界面
 
-![](Clip_2024-10-24_15-39-00.png)
+![](settings.png)
 
 ### 历史记录
 
-![](Clip_2024-10-24_15-39-22.png)
+![](history.png)
 
 ## 🚀 快速开始
 
 ### 下载安装
 
-1. 从 [Releases](https://github.com/yourusername/VoiceInk/releases) 页面下载最新版本
+1. 从 [Releases](https://github.com/BryceWG/VoiceInk/releases) 页面下载最新版本
 2. 选择下载方式：
    - 便携版（推荐）：下载 `VoiceInk_便携版.zip`
    - 单文件版：下载 `VoiceInk.exe`
+   - 
+### 自己打包
+
+1. 安装依赖 `pip install -r requirements.txt`
+2. 运行 `build_scripts/build.py` 打包
 
 ### 首次使用
 
 1. 解压或运行程序
 2. 在设置中配置 API 密钥
 3. 按住 Ctrl 键开始录音
-4. 松开 Ctrl 键完成转写
+4. 等到悬浮窗涟漪动画完成后开始说话
+5. 松开 Ctrl 键完成转写
 
 ## 💻 使用说明
 

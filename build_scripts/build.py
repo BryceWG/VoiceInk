@@ -2,6 +2,7 @@ import os
 import shutil
 import subprocess
 from pathlib import Path
+import json
 
 def clean_dirs():
     """清理构建目录"""
@@ -68,8 +69,70 @@ def create_portable():
         'main.py'
     ], check=True)
     
-    # 复制配置文件模板
-    shutil.copy('config.json', 'portable/VoiceInk/config.template.json')
+    # 创建默认配置文件
+    default_config = {
+        "general_settings": {
+            "insert_method": "clipboard",
+            "keyboard_interval": 0.01,
+            "enable_logging": False
+        },
+        "api_settings": {
+            "transcription": {
+                "openai": {
+                    "api_key": "",
+                    "api_url": "https://api.openai.com/v1",
+                    "model": "whisper-1"
+                },
+                "groq": {
+                    "api_key": "",
+                    "api_url": "https://api.groq.com/openai/v1",
+                    "model": "whisper-large-v3"
+                },
+                "custom": {
+                    "api_key": "",
+                    "api_url": "",
+                    "model": ""
+                }
+            },
+            "post_process": {
+                "openai": {
+                    "api_key": "",
+                    "api_url": "https://api.openai.com/v1",
+                    "model": "gpt-3.5-turbo"
+                },
+                "groq": {
+                    "model": "mixtral-8x7b-32768"
+                }
+            }
+        },
+        "transcription_settings": {
+            "provider": "openai",
+            "post_process": False,
+            "post_process_provider": "openai",
+            "post_process_prompt": "修正文本中的错误，保持原意",
+            "wave_window_position": "right-middle",
+            "wave_window_custom_pos": {"x": 0, "y": 0},
+            "remove_punctuation": True,
+            "punctuation_to_remove": "。，,.?？！!",
+            "remove_emoji": True
+        },
+        "audio_settings": {
+            "sample_rate": 44100,
+            "channels": 1,
+            "trigger_press_time": 0.1,
+            "min_press_time": 0.3,
+            "max_record_time": 60.0
+        },
+        "history_settings": {
+            "max_days": 30,
+            "enabled": True
+        }
+    }
+    
+    # 创建配置文件模板
+    os.makedirs('portable/VoiceInk', exist_ok=True)
+    with open('portable/VoiceInk/config.template.json', 'w', encoding='utf-8') as f:
+        json.dump(default_config, f, indent=4, ensure_ascii=False)
     
     # 创建启动脚本
     with open('portable/VoiceInk/启动VoiceInk.bat', 'w', encoding='utf-8') as f:
