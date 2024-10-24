@@ -11,5 +11,4 @@ pyautogui>=0.9.54
 pywin32>=306
 emoji>=2.2.0
 pyinstaller>=6.3.0
-google-generativeai>=0.3.2
 certifi

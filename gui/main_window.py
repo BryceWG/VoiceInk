@@ -1,8 +1,8 @@
 from PyQt6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
-                           QPushButton, QLabel, QStatusBar, QScrollArea,
-                           QSystemTrayIcon, QMenu, QStyle, QApplication)
+                           QPushButton, QLabel,
+                           QSystemTrayIcon, QMenu, QApplication)
 from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QSize  # 从 QtCore 导入 QSize
-from PyQt6.QtGui import QIcon, QFont, QFontDatabase
+from PyQt6.QtGui import QIcon, QFont
 from .settings_dialog import SettingsDialog
 from .wave_visualizer import WaveVisualizerWindow
 from core.transcription_manager import TranscriptionManager

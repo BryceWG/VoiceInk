@@ -2,3 +2,5 @@
 /dist
 /*.spec
 /build
+history.json
+config.json

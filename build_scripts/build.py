@@ -1,72 +1,16 @@
 import os
 import shutil
 import subprocess
-from pathlib import Path
 import json
-import certifi
-
-def clean_dirs():
-    """清理构建目录"""
-    dirs_to_clean = ['build', 'dist', 'portable']
-    for dir_name in dirs_to_clean:
-        if os.path.exists(dir_name):
-            shutil.rmtree(dir_name)
+from build_common import clean_dirs, get_pyinstaller_base_args, get_output_filename
 
 def create_portable():
     """创建便携版"""
     print("正在创建便携版...")
     
-    subprocess.run([
-        'pyinstaller',
-        '--noconfirm',
-        '--noconsole',
-        '--name=VoiceInk',
-        '--icon=resources/app.ico',
-        # 添加证书文件
-        f'--add-data={certifi.where()};certifi',
-        # 移除 --add-data=qt.conf;. 参数
-        '--add-data=resources/app.ico;resources/',
-        '--add-data=resources/style.qss;resources/',
-        '--add-data=resources/icons/16x16/app.png;resources/icons/16x16/',
-        '--add-data=resources/icons/24x24/app.png;resources/icons/24x24/',
-        '--add-data=resources/icons/32x32/app.png;resources/icons/32x32/',
-        '--add-data=resources/icons/48x48/app.png;resources/icons/48x48/',
-        '--add-data=resources/icons/256x256/app.png;resources/icons/256x256/',
-        '--add-data=resources;resources',
-        # PyQt6 相关配置
-        '--hidden-import=PyQt6',
-        '--hidden-import=PyQt6.QtCore',
-        '--hidden-import=PyQt6.QtGui',
-        '--hidden-import=PyQt6.QtWidgets',
-        '--hidden-import=PyQt6.sip',
-        '--collect-submodules=PyQt6',
-        '--collect-data=PyQt6',
-        # 添加系统托盘相关的依赖
-        '--hidden-import=PyQt6.QtWidgets.QSystemTrayIcon',
-        '--hidden-import=PyQt6.QtWidgets.QMenu',
-        '--hidden-import=PyQt6.QtGui.QIcon',
-        # 其他必要的依赖
-        '--hidden-import=pynput.keyboard._win32',
-        '--hidden-import=sounddevice',
-        '--hidden-import=numpy',
-        '--hidden-import=openai',
-        '--hidden-import=requests',
-        '--hidden-import=pyperclip',
-        '--hidden-import=pyautogui',
-        '--hidden-import=win32com.client',
-        '--hidden-import=emoji',
-        '--hidden-import=google.generativeai',
-        '--exclude-module=matplotlib',
-        '--exclude-module=scipy',
-        '--exclude-module=pandas',
-        '--exclude-module=PIL',
-        '--exclude-module=cv2',
-        '--hidden-import=PyQt6.QtGui.QFontDatabase',
-        '--hidden-import=PyQt6.QtGui.QFont',
-        '--hidden-import=certifi',
-        '--distpath=portable',
-        'main.py'
-    ], check=True)
+    args = get_pyinstaller_base_args()
+    args.extend(['--distpath=portable', 'main.py'])
+    subprocess.run(args, check=True)
     
     # 创建默认配置文件
     default_config = {
@@ -89,15 +33,15 @@ def create_portable():
                 },
                 "custom": {
                     "api_key": "",
-                    "api_url": "",
-                    "model": ""
+                    "api_url": "https://api.siliconflow.cn/v1/audio/transcriptions",
+                    "model": "FunAudioLLM/SenseVoiceSmall"
                 }
             },
             "post_process": {
                 "openai": {
                     "api_key": "",
                     "api_url": "https://api.openai.com/v1",
-                    "model": "gpt-3.5-turbo"
+                    "model": "gpt-4o-mini"
                 },
                 "groq": {
                     "model": "mixtral-8x7b-32768"
@@ -108,7 +52,7 @@ def create_portable():
             "provider": "openai",
             "post_process": False,
             "post_process_provider": "openai",
-            "post_process_prompt": "修正文本中错误，保持原意",
+            "post_process_prompt": "更正文本中错误，保持原意",
             "wave_window_position": "right-middle",
             "wave_window_custom_pos": {"x": 0, "y": 0},
             "remove_punctuation": True,
@@ -118,8 +62,8 @@ def create_portable():
         "audio_settings": {
             "sample_rate": 44100,
             "channels": 1,
-            "trigger_press_time": 0.1,
-            "min_press_time": 0.3,
+            "trigger_press_time": 0.2,
+            "min_press_time": 0.5,
             "max_record_time": 60.0
         },
         "history_settings": {
@@ -152,71 +96,23 @@ def create_portable():
         f.write('- 所有配置和历史记录都保存在程序目录下\n')
         f.write('- 如需迁移程序，复制整个文件夹即可\n')
     
-    # 打包为zip
-    shutil.make_archive('VoiceInk_便携版', 'zip', 'portable/VoiceInk')
-    print("便携版创建完成：VoiceInk_便携版.zip")
+    # 使用版本号命名
+    output_name = get_output_filename(is_portable=True)
+    shutil.make_archive(output_name, 'zip', 'portable/VoiceInk')
+    print(f"便携版创建完成：{output_name}.zip")
 
 def create_single_exe():
     """创建单文件版本"""
     print("正在创建单文件版本...")
     
-    subprocess.run([
-        'pyinstaller',
-        '--noconfirm',
-        '--noconsole',
-        '--onefile',
-        '--name=VoiceInk',
-        '--icon=resources/app.ico',
-        # 添加证书文件
-        f'--add-data={certifi.where()};certifi',
-        # 添加 qt.conf
-        '--add-data=qt.conf;.',
-        # 修改资源文件的打包方式
-        '--add-data=resources/app.ico;resources/',
-        '--add-data=resources/style.qss;resources/',
-        '--add-data=resources/icons/16x16/app.png;resources/icons/16x16/',
-        '--add-data=resources/icons/24x24/app.png;resources/icons/24x24/',
-        '--add-data=resources/icons/32x32/app.png;resources/icons/32x32/',
-        '--add-data=resources/icons/48x48/app.png;resources/icons/48x48/',
-        '--add-data=resources/icons/256x256/app.png;resources/icons/256x256/',
-        # 确保所有资源目录都被包含
-        '--add-data=resources;resources',
-        # PyQt6 相关配置
-        '--hidden-import=PyQt6',
-        '--hidden-import=PyQt6.QtCore',
-        '--hidden-import=PyQt6.QtGui',
-        '--hidden-import=PyQt6.QtWidgets',
-        '--hidden-import=PyQt6.sip',
-        '--collect-submodules=PyQt6',
-        '--collect-data=PyQt6',
-        # 添加系统托盘相关的依赖
-        '--hidden-import=PyQt6.QtWidgets.QSystemTrayIcon',
-        '--hidden-import=PyQt6.QtWidgets.QMenu',
-        '--hidden-import=PyQt6.QtGui.QIcon',
-        # 其他必要的依赖
-        '--hidden-import=pynput.keyboard._win32',
-        '--hidden-import=sounddevice',
-        '--hidden-import=numpy',
-        '--hidden-import=openai',
-        '--hidden-import=requests',
-        '--hidden-import=pyperclip',
-        '--hidden-import=pyautogui',
-        '--hidden-import=win32com.client',
-        '--hidden-import=emoji',
-        '--hidden-import=google.generativeai',  # 添加 Google AI 依赖
-        # 排除不需要的模块
-        '--exclude-module=matplotlib',
-        '--exclude-module=scipy',
-        '--exclude-module=pandas',
-        '--exclude-module=PIL',
-        '--exclude-module=cv2',
-        '--hidden-import=PyQt6.QtGui.QFontDatabase',
-        '--hidden-import=PyQt6.QtGui.QFont',
-        '--hidden-import=certifi',
-        'main.py'
-    ], check=True)
+    args = get_pyinstaller_base_args()
+    args.extend(['--onefile', 'main.py'])
+    subprocess.run(args, check=True)
     
-    print("单文件版本创建完成：dist/VoiceInk.exe")
+    # 重命名输出文件以包含版本号
+    output_name = get_output_filename(is_portable=False)
+    os.rename('dist/VoiceInk.exe', f'dist/{output_name}.exe')
+    print(f"单文件版本创建完成：dist/{output_name}.exe")
 
 def main():
     # 检查是否在虚拟环境中

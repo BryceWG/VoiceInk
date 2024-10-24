@@ -19,7 +19,7 @@ def get_pyinstaller_base_args():
         '--icon=resources/app.ico',
         # 添加证书文件
         f'--add-data={certifi.where()};certifi',
-        # 移除 --add-data=qt.conf;. 参数
+        # 资源文件
         '--add-data=resources/app.ico;resources/',
         '--add-data=resources/style.qss;resources/',
         '--add-data=resources/icons/16x16/app.png;resources/icons/16x16/',
@@ -36,27 +36,39 @@ def get_pyinstaller_base_args():
         '--hidden-import=PyQt6.sip',
         '--collect-submodules=PyQt6',
         '--collect-data=PyQt6',
-        # 添加系统托盘相关的依赖
+        # 系统托盘相关依赖
         '--hidden-import=PyQt6.QtWidgets.QSystemTrayIcon',
         '--hidden-import=PyQt6.QtWidgets.QMenu',
         '--hidden-import=PyQt6.QtGui.QIcon',
-        # 其他必要的依赖
+        # 核心功能依赖
         '--hidden-import=pynput.keyboard._win32',
         '--hidden-import=sounddevice',
         '--hidden-import=numpy',
-        '--hidden-import=openai',
+        '--hidden-import=openai',  # 保留 OpenAI
         '--hidden-import=requests',
         '--hidden-import=pyperclip',
         '--hidden-import=pyautogui',
         '--hidden-import=win32com.client',
-        '--hidden-import=emoji',
-        '--hidden-import=google.generativeai',
+        '--hidden-import=emoji',  # 保留 emoji
+        # 排除不需要的模块
         '--exclude-module=matplotlib',
         '--exclude-module=scipy',
         '--exclude-module=pandas',
         '--exclude-module=PIL',
         '--exclude-module=cv2',
+        # 其他必要的依赖
         '--hidden-import=PyQt6.QtGui.QFontDatabase',
         '--hidden-import=PyQt6.QtGui.QFont',
         '--hidden-import=certifi'
     ]
+
+def get_version():
+    """获取程序版本号"""
+    return "1.0.0"  # 可以从配置文件或其他地方读取
+
+def get_output_filename(is_portable=True):
+    """获取输出文件名"""
+    version = get_version()
+    if is_portable:
+        return f'VoiceInk_便携版_v{version}'
+    return f'VoiceInk_v{version}'

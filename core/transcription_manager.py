@@ -1,5 +1,4 @@
 import openai
-import google.generativeai as genai
 import requests
 import pyautogui
 import pyperclip
