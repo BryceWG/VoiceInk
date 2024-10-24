@@ -1,0 +1,176 @@
+/* 全局样式 */
+* {
+    font-family: "Microsoft YaHei UI";
+    font-size: 10pt;
+}
+
+QWidget {
+    font-smooth: always;
+}
+
+/* 主窗口样式 */
+QMainWindow {
+    background-color: #f5f5f5;
+}
+
+/* 标签样式 */
+QLabel {
+    color: #2c3e50;
+    font-size: 12pt;
+    padding: 5px;
+}
+
+/* 标题标签 */
+#titleLabel {
+    font-size: 24pt;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* 副标题标签 */
+#subtitleLabel {
+    font-size: 14pt;
+    color: #34495e;
+}
+
+/* 状态标签样式 */
+#statusLabel {
+    color: #2c3e50;
+}
+
+/* 录音时长显示样式 */
+#recordingTimeLabel {
+    font-size: 12pt;
+    color: #2980b9;
+}
+
+/* 按钮样式 */
+QPushButton {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #2980b9;
+}
+
+QPushButton:pressed {
+    background-color: #2472a4;
+}
+
+/* 状态栏样式 */
+QStatusBar {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+}
+
+/* 设置对话框样式 */
+QDialog {
+    background-color: #f5f5f5;
+    font-size: 13pt;  /* 增大基础字体 */
+}
+
+/* 分组框样式 */
+QGroupBox {
+    font-size: 14pt;  /* 增大标题字体 */
+    font-weight: bold;
+    border: 2px solid #bdc3c7;
+    border-radius: 6px;
+    margin-top: 15px;
+    padding-top: 12px;
+}
+
+QGroupBox::title {
+    color: #2c3e50;
+    subcontrol-origin: margin;
+    subcontrol-position: top center;
+    padding: 0 5px;
+}
+
+/* 输入框样式 */
+QLineEdit {
+    padding: 8px;  /* 增大内边距 */
+    border: 2px solid #bdc3c7;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 13pt;  /* 增大字体 */
+}
+
+QLineEdit:focus {
+    border-color: #3498db;
+}
+
+/* 下拉框样式 */
+QComboBox {
+    padding: 8px;  /* 增大内边距 */
+    border: 2px solid #bdc3c7;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 13pt;  /* 增大字体 */
+}
+
+QComboBox:hover {
+    border-color: #3498db;
+}
+
+/* 复选框样式 */
+QCheckBox {
+    spacing: 5px;
+}
+
+QCheckBox::indicator {
+    width: 18px;
+    height: 18px;
+}
+
+/* 滚动区域样式 */
+QScrollArea {
+    border: none;
+}
+
+/* 标签页样式 */
+QTabWidget::pane {
+    border: 2px solid #bdc3c7;
+    border-radius: 6px;
+}
+
+QTabBar::tab {
+    background-color: #ecf0f1;
+    padding: 8px 15px;
+    margin-right: 2px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+QTabBar::tab:selected {
+    background-color: #3498db;
+    color: white;
+}
+
+/* 状态容器样式 */
+#statusContainer {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+/* 菜单样式 */
+QMenu {
+    background-color: white;
+    border: 1px solid #dcdcdc;
+    padding: 5px;
+}
+
+QMenu::item {
+    padding: 5px 25px 5px 30px;
+    border: 1px solid transparent;
+}
+
+QMenu::item:selected {
+    background-color: #3498db;
+    color: white;
+}
